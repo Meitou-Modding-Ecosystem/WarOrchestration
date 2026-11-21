@@ -1,0 +1,6 @@
+<Project>
+
+  <!-- Frameworks named in meitou.lock.json: downloaded, hash-checked and referenced (GutenStructure docs/framework-lock.md). -->
+  <Import Project="build/gutenstructure/msbuild/Meitou.Frameworks.targets" />
+
+</Project>
