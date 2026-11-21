@@ -79,3 +79,17 @@ jobs:
           if not results or any(result != 'success' for result in results):
               raise SystemExit('A required check failed, was cancelled, or was skipped')
           PYCODE
+
+  beta-package:
+    name: Publish beta package
+    if: github.event_name == 'push' && github.ref == 'refs/heads/beta'
+    needs: release-readiness
+    permissions:
+      contents: write
+    uses: TheIvoryDisaster/GutenStructure/.github/workflows/package-meitou-mod.yml@8787bd486a0c7e89e8b9f4c91d8c91bf698b81e6
+    with:
+      mod-folder: ExampleMod
+      slug: war-orchestration
+      channel: beta
+      test-project: .
+      empty-data-mod: true
