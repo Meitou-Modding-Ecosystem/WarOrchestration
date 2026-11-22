@@ -1,10 +1,11 @@
-# Releases the mod: a tag <slug>-v<version> on release builds it, checks the version against its meitou.json, and publishes
-# <MOD_FOLDER>-<version>.zip (with its SHA-256) holding the folder to drop into Kenshi/mods/. Packaging: GutenStructure
-# package-meitou-mod.yml (pinned). Rename ExampleMod / war-orchestration below with the mod (README "Use this template").
+# Releases the mod: every push to release reads the version from its meitou.json and, unless the tag <slug>-v<version> exists,
+# creates that tag at the release head and publishes <MOD_FOLDER>-<version>.zip (with its SHA-256) holding the folder to drop into
+# Kenshi/mods/, all in one run. A hand-pushed tag does the same as a fallback. Packaging: GutenStructure package-meitou-mod.yml (pinned). Rename ExampleMod / war-orchestration below with the mod (README "Use this template").
 name: Release
 
 on:
   push:
+    branches: [release]
     tags: ["war-orchestration-v*"]
 
 permissions:
@@ -14,13 +15,13 @@ jobs:
   release-gate:
     permissions:
       contents: read
-    uses: TheIvoryDisaster/GutenStructure/.github/workflows/release-gate.yml@8787bd486a0c7e89e8b9f4c91d8c91bf698b81e6
+    uses: TheIvoryDisaster/GutenStructure/.github/workflows/release-gate.yml@5b080fca9aef988e032f4ea89b7fb9bdc72db3de
 
   release:
     needs: release-gate
     permissions:
       contents: write
-    uses: TheIvoryDisaster/GutenStructure/.github/workflows/package-meitou-mod.yml@8787bd486a0c7e89e8b9f4c91d8c91bf698b81e6
+    uses: TheIvoryDisaster/GutenStructure/.github/workflows/package-meitou-mod.yml@5b080fca9aef988e032f4ea89b7fb9bdc72db3de
     with:
       mod-folder: ExampleMod
       slug: war-orchestration
