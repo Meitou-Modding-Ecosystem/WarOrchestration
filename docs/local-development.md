@@ -112,6 +112,24 @@ git -C "$Ashen\engine" checkout FETCH_HEAD
   engine branch in `$Rivalry\engine`.
 - Order to land it: engine PR into `fork`, then the framework PR moving `$Rivalry\engine`, then the mod PR moving its lock and `engine`.
 
+## Switch the engine to play or test
+
+To play the latest upstream, a release or an engine branch, switch your `$Engine` clone with the script in any mod repo:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "$Ashen\tools\Switch-Engine.ps1" -To Upstream -Path $Engine -Run
+```
+
+- `-To Upstream`: the newest commit of VlcekM/MeitouClient `master` (the script adds the `upstream` remote when missing).
+- `-To Release`: the newest upstream release tag `vX.Y.Z`.
+- `-To Fork`: the org fork's `fork` branch, pulled.
+- `-Branch <name>`: a branch of the org fork, such as an engine PR's branch.
+- Without `-Path` it uses the `MeitouClient` folder next to the mod repo. `-Run` builds the game in Release and starts it; `-Build` only
+  builds it.
+- Upstream, Release and `-Branch` leave the clone on a detached commit; the local `master` and `fork` branches are not changed. The script
+  stops without changing anything when the clone has uncommitted changes.
+- It never touches the mod repo's own `engine` submodule (that is `Update-Local.ps1` and the pins).
+
 ## Keep clones current
 
 ```powershell
