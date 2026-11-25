@@ -130,6 +130,25 @@ powershell -ExecutionPolicy Bypass -File "$Ashen\tools\Switch-Engine.ps1" -To Up
   stops without changing anything when the clone has uncommitted changes.
 - It never touches the mod repo's own `engine` submodule (that is `Update-Local.ps1` and the pins).
 
+## Play every mod on the fork
+
+To play or test the fork's hooks before upstream has them, point every mod repo at one engine, the head of the fork's `fork` branch. Run
+in any mod repo:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "$Ashen\tools\Use-ForkEngine.ps1"
+```
+
+Then close Visual Studio and every terminal, reopen them, and build Play in each repo whose mod you play.
+
+- It updates `$Engine` (cloned when missing) to the fork's head, fast-forward only, and sets the user environment variable
+  `MeitouEngineDir` to it. Every mod repo's build, Play and Visual Studio then use that engine instead of the repo's `engine` submodule.
+  The solution still lists the submodule's projects; the mods and Play don't use them.
+- Run it again to take the newest fork. `-Status` says which engine builds use. `-Off` removes the variable: each repo builds its own
+  `engine` submodule again (restart Visual Studio and rebuild).
+- It stops without changing anything when `$Engine` has uncommitted changes. `-Path <folder>` uses another clone.
+- Nothing is committed: the repos' engine pins keep following upstream.
+
 ## Keep clones current
 
 ```powershell
