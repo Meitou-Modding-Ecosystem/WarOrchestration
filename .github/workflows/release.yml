@@ -15,13 +15,13 @@ jobs:
   release-gate:
     permissions:
       contents: read
-    uses: TheIvoryDisaster/GutenStructure/.github/workflows/release-gate.yml@5b080fca9aef988e032f4ea89b7fb9bdc72db3de
+    uses: TheIvoryDisaster/GutenStructure/.github/workflows/release-gate.yml@35828a0aa8752f1fc56a9dbdd35b330bf3520ab2
 
   release:
     needs: release-gate
     permissions:
       contents: write
-    uses: TheIvoryDisaster/GutenStructure/.github/workflows/package-meitou-mod.yml@5b080fca9aef988e032f4ea89b7fb9bdc72db3de
+    uses: TheIvoryDisaster/GutenStructure/.github/workflows/package-meitou-mod.yml@35828a0aa8752f1fc56a9dbdd35b330bf3520ab2
     with:
       mod-folder: ExampleMod
       slug: war-orchestration
