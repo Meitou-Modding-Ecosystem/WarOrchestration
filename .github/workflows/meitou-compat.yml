@@ -1,0 +1,26 @@
+# Checks the mods daily against the newest Meitou release, the newest nightly and each gameVersion floor: one issue labelled
+# meitou-compat for a break, and a PR (labelled needs-release) lifting a gameVersion cap when a release above it breaks nothing
+# (GutenStructure docs/meitou-compat.md). A repository with only `main` adds `base: main`.
+name: Meitou compatibility
+
+on:
+  schedule:
+    - cron: '41 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compat:
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      actions: write
+    uses: TheIvoryDisaster/GutenStructure/.github/workflows/meitou-compat.yml@5aeaf1d9e4db2857bc2a91d694f47913ec71a93e
+    with:
+      tools-ref: 5aeaf1d9e4db2857bc2a91d694f47913ec71a93e
+    secrets:
+      app-id: ${{ secrets.MEITOU_BOT_APP_ID }}
+      app-key: ${{ secrets.MEITOU_BOT_KEY }}
