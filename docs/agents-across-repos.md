@@ -51,8 +51,9 @@ and publishes its own, then the Bast Front PR locks both.
   and MeitouEngineDir in the repo's git-ignored Meitou.user.props. Never commit Meitou.user.props.
 - A lock points only at an immutable tag: <framework>-<version>-beta.<commit> or <framework>-v<version>, with the
   asset, SHA-256 and engine commit copied from that release's notes. Never the rolling <framework>-beta tag.
-- Never commit inside an engine/ submodule. Move an engine pin only to a commit merged on fork, and keep it equal to the
-  lock's engine commit.
+- Never commit inside an engine/ submodule. engine/ follows the newest upstream Meitou tag (nightly or full release of
+  VlcekM/MeitouClient) through engine-update.yml, or with a lock, the lock's engine commit through framework-update.yml. Both move
+  Directory.Build.rsp and every gameVersion floor with it (GutenStructure docs/engine-update.md). Never pin the fork's fork head.
 - Don't merge a PR whose lock names a framework build that isn't published yet.
 - Ask before release tags, promotions to main or release, and anything in another author's folder or repo.
 - Report every PR link, in landing order.

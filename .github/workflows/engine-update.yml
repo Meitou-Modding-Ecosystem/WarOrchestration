@@ -1,0 +1,26 @@
+# Keeps engine on the newest upstream Meitou tag (nightly or full release): moves the submodule, Directory.Build.rsp and each gameVersion
+# floor together, opens a PR into beta and merges it when CI is green (GutenStructure docs/engine-update.md). A failing PR stays open: the
+# new Meitou needs a port. Nothing to do while meitou.lock.json locks frameworks (framework-update moves the engine then). A repository with
+# only `main` adds `base: main`.
+name: Engine update
+
+on:
+  schedule:
+    - cron: '23 */3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    uses: TheIvoryDisaster/GutenStructure/.github/workflows/engine-update.yml@5dc76952e11014b8c75699f474734c4e444eb5ea
+    with:
+      tools-ref: 5dc76952e11014b8c75699f474734c4e444eb5ea
+    secrets:
+      app-id: ${{ secrets.MEITOU_BOT_APP_ID }}
+      app-key: ${{ secrets.MEITOU_BOT_KEY }}

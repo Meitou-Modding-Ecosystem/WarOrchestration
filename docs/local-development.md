@@ -112,6 +112,43 @@ git -C "$Ashen\engine" checkout FETCH_HEAD
   engine branch in `$Rivalry\engine`.
 - Order to land it: engine PR into `fork`, then the framework PR moving `$Rivalry\engine`, then the mod PR moving its lock and `engine`.
 
+## Switch the engine to play or test
+
+To play the latest upstream, a release or an engine branch, switch your `$Engine` clone with the script in any mod repo:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "$Ashen\tools\Switch-Engine.ps1" -To Upstream -Path $Engine -Run
+```
+
+- `-To Upstream`: the newest commit of VlcekM/MeitouClient `master` (the script adds the `upstream` remote when missing).
+- `-To Release`: the newest upstream release tag `vX.Y.Z`.
+- `-To Fork`: the org fork's `fork` branch, pulled.
+- `-Branch <name>`: a branch of the org fork, such as an engine PR's branch.
+- Without `-Path` it uses the `MeitouClient` folder next to the mod repo. `-Run` builds the game in Release and starts it; `-Build` only
+  builds it.
+- Upstream, Release and `-Branch` leave the clone on a detached commit; the local `master` and `fork` branches are not changed. The script
+  stops without changing anything when the clone has uncommitted changes.
+- It never touches the mod repo's own `engine` submodule (that is `Update-Local.ps1` and the pins).
+
+## Play every mod on the fork
+
+To play or test the fork's hooks before upstream has them, point every mod repo at one engine, the head of the fork's `fork` branch. Run
+in any mod repo:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "$Ashen\tools\Use-ForkEngine.ps1"
+```
+
+Then close Visual Studio and every terminal, reopen them, and build Play in each repo whose mod you play.
+
+- It updates `$Engine` (cloned when missing) to the fork's head, fast-forward only, and sets the user environment variable
+  `MeitouEngineDir` to it. Every mod repo's build, Play and Visual Studio then use that engine instead of the repo's `engine` submodule.
+  The solution still lists the submodule's projects; the mods and Play don't use them.
+- Run it again to take the newest fork. `-Status` says which engine builds use. `-Off` removes the variable: each repo builds its own
+  `engine` submodule again (restart Visual Studio and rebuild).
+- It stops without changing anything when `$Engine` has uncommitted changes. `-Path <folder>` uses another clone.
+- Nothing is committed: the repos' engine pins keep following upstream.
+
 ## Keep clones current
 
 ```powershell

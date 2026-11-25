@@ -18,6 +18,9 @@ jobs:
       contents: write
       pull-requests: write
       actions: write
-    uses: TheIvoryDisaster/GutenStructure/.github/workflows/framework-update.yml@7bbd01b87f8980f40af7c7f832bc2f038f7ab56d
+    uses: TheIvoryDisaster/GutenStructure/.github/workflows/framework-update.yml@5dc76952e11014b8c75699f474734c4e444eb5ea
     with:
       channel: beta
+    secrets:
+      app-id: ${{ secrets.MEITOU_BOT_APP_ID }}
+      app-key: ${{ secrets.MEITOU_BOT_KEY }}
