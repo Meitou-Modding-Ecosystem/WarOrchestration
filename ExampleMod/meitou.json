@@ -2,7 +2,7 @@
   "id": "example.mod",
   "version": "0.1.1",
   "apiVersion": 2,
-  "gameVersion": ">=0.23.2",
+  "gameVersion": ">=0.23.3",
   "assemblies": [
     "ExampleMod.dll"
   ],
